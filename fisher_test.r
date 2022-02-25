@@ -30,7 +30,7 @@ for (genome in genomes){
     	if (fisher){
     		           
 		res <- fisher.test(conj, alternative = "greater")  
-		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'less', chim_yes, chim_no, uniq_yes, uniq_no)
+		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'greater', chim_yes, chim_no, uniq_yes, uniq_no)
 		df[,genome] <- result
 		#genome1 <- paste(genome, '_', sep='')
 		#res <- fisher.test(conj, alternative = "less") 

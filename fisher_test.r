@@ -30,8 +30,12 @@ for (genome in genomes){
     	if (fisher){
     		           
 		res <- fisher.test(conj, alternative = "less")  
-		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'fisher')
+		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'less')
 		df[,genome] <- result
+		genome1 <- paste(genome, '_', sep='')
+		res <- fisher.test(conj, alternative = "greater") 
+		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'greater')
+		df[,genome1] <- result 
 	} else {
 		res <- chisq.test(conj, alternative = "less")  
 		result <- c( res[['p.value']],res[['statistic']], 'chi2')

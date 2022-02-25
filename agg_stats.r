@@ -6,7 +6,7 @@ workdir <- args[1]
 genomes <- str_split(args[2], '\n')
 
 for (genome in genomes){
-	filename <- paste(workdir, '/results_', str_replace_all(genome, '-', '_'), '/gstats_library_group/all_libraries.14-41.stats', sep='')
+	filename <- paste(workdir, '/results_', str_replace_all(genome, '-', '_'), '/gstats_library_group/all_libraries.', genome, '.stats', sep='')
 	varname <- paste("stats_", str_replace_all(genome, '-', '_'), sep="")
 	assign(varname, read.table(file = filename, col.names = c("name", genome)))
 }

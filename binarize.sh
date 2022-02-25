@@ -77,5 +77,3 @@ awk '{print $1"\t"$4"\t"$4}' chimers/chimers.bed > chimers/chimers3.bed
 bedtools coverage -a chimers/chimers3.bed -b ../MBoI25.bed > coverages/chimers3_inters.cov
 awk '{print $1"\t"$4"\t"$4}' unique/unique.bed > unique/unique3.bed
 bedtools coverage -a unique/unique3.bed -b ../MBoI25.bed > coverages/unique3_inters.cov
-
-rm 

@@ -1,5 +1,6 @@
 #!/usr/bin/env Rscript
 
+library(stringr)
 args <- commandArgs(TRUE) 
 workdir <- args[1]
 genomes <- str_split(args[2], '\n')

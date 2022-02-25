@@ -6,11 +6,16 @@ workdir <- args[1]
 genomes <- str_split(args[2], '\n')
 file_chim <- 'coverages/chimers3_inters.cov'
 file_unique <- 'coverages/unique3_inters.cov'
-df <- data.frame(names = c("statistic", "p.value", "test"))
+fisher <- TRUE
+if (fisher){
+	df <- data.frame(names = c("p.value", "odds ratio", "test"))	
+} else {
+	df <- data.frame(names = c("statistic", "p.value", "test"))
+}
 
 for (genome in genomes){
-	workdir <- paste(workdir,'/results_', str_replace_all(genome, '-', '_'), '/gmapped_parsed_sorted_chunks/', sep='')
-	setwd(workdir)
+	workdir1 <- paste(workdir,'/results_', str_replace_all(genome, '-', '_'), '/gmapped_parsed_sorted_chunks/', sep='')
+	setwd(workdir1)
 
 	chimers <- read.table(file_chim)
 	chim_no <- sum(chimers$V4 == 0)
@@ -22,10 +27,17 @@ for (genome in genomes){
 	      	nrow = 2,
 	       dimnames = list(Chim = c("Yes", "No"),
     		               Unique = c("Yes", "No")))
-	res <- fisher.test(conj, alternative = "less")  
-	result <- c(res[['statistic']], res[['p.value']], 'fisher')
-	df[,genome] <- result
+    	if (fisher){
+    		           
+		res <- fisher.test(conj, alternative = "less")  
+		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'fisher')
+		df[,genome] <- result
+	} else {
+		res <- chisq.test(conj, alternative = "less")  
+		result <- c( res[['p.value']],res[['statistic']], 'chi2')
+		df[,genome] <- result
+	}
 }
 
-filepath_res <- paste(workdir, '/aggr_results/fisher_test.csv')
+filepath_res <- paste(workdir, '/aggr_results/fisher_test.csv', sep='')
 write.csv(df, file=filepath_res, quote=FALSE, sep="\t")

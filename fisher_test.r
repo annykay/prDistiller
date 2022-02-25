@@ -8,9 +8,9 @@ file_chim <- 'coverages/chimers3_inters.cov'
 file_unique <- 'coverages/unique3_inters.cov'
 fisher <- TRUE
 if (fisher){
-	df <- data.frame(names = c("p.value", "odds ratio", "test"))	
+	df <- data.frame(names = c("p.value", "odds ratio", "test", "chim_yes", "chim_no", "unique_yes", "unique_no"))	
 } else {
-	df <- data.frame(names = c("statistic", "p.value", "test"))
+	df <- data.frame(names = c("statistic", "p.value", "test", "chim_yes", "chim_no", "unique_yes", "unique_no"))
 }
 
 for (genome in genomes){
@@ -29,13 +29,13 @@ for (genome in genomes){
     		               Unique = c("Yes", "No")))
     	if (fisher){
     		           
-		res <- fisher.test(conj, alternative = "less")  
-		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'less')
+		res <- fisher.test(conj, alternative = "greater")  
+		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'less', chim_yes, chim_no, uniq_yes, uniq_no)
 		df[,genome] <- result
-		genome1 <- paste(genome, '_', sep='')
-		res <- fisher.test(conj, alternative = "greater") 
-		result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'greater')
-		df[,genome1] <- result 
+		#genome1 <- paste(genome, '_', sep='')
+		#res <- fisher.test(conj, alternative = "less") 
+		#result <- c( res[['p.value']],res[["estimate"]][["odds ratio"]], 'greater', chim_yes, chim_no, uniq_yes, uniq_no)
+		#df[,genome1] <- result 
 	} else {
 		res <- chisq.test(conj, alternative = "less")  
 		result <- c( res[['p.value']],res[['statistic']], 'chi2')
